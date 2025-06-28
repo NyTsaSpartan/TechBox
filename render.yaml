@@ -1,26 +1,13 @@
 services:
   - type: web
-    name: techbox-odoo18
-    env: python
-    region: frankfurt  # ou "oregon", "singapore", etc. selon ta proximité
+    name: odoo18-docker
+    env: docker
+    region: frankfurt
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: >
-      ./odoo-bin
-      --addons-path=addons
-      --db_host=$PGHOST
-      --db_port=$PGPORT
-      --db_user=$PGUSER
-      --db_password=$PGPASSWORD
-      --db_name=$PGDATABASE
-      --xmlrpc-port=$PORT
-      --log-level=info
-    pythonVersion: 3.10
+    dockerfilePath: Dockerfile
     envVars:
       - key: PORT
         value: 8080
-      - key: WORKERS
-        value: "0"
       - key: PGHOST
         sync: false
       - key: PGPORT
