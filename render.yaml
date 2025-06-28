@@ -1,18 +1,33 @@
 services:
   - type: web
-    name: odoo18
+    name: techbox-odoo18
     env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: >
-      ./odoo-bin --addons-path=addons
-      --db_host=$PGHOST --db_port=$PGPORT --db_user=$PGUSER
-      --db_password=$PGPASSWORD --db_name=$PGDATABASE
-      --xmlrpc-port=$PORT --log-level=info
+    region: frankfurt  # ou "oregon", "singapore", etc. selon ta proximité
     plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: >
+      ./odoo-bin
+      --addons-path=addons
+      --db_host=$PGHOST
+      --db_port=$PGPORT
+      --db_user=$PGUSER
+      --db_password=$PGPASSWORD
+      --db_name=$PGDATABASE
+      --xmlrpc-port=$PORT
+      --log-level=info
+    pythonVersion: 3.10
     envVars:
       - key: PORT
         value: 8080
       - key: WORKERS
         value: "0"
-    runtime: python
-    pythonVersion: 3.10
+      - key: PGHOST
+        sync: false
+      - key: PGPORT
+        value: "5432"
+      - key: PGUSER
+        sync: false
+      - key: PGPASSWORD
+        sync: false
+      - key: PGDATABASE
+        sync: false
