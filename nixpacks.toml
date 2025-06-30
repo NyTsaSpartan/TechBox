@@ -1,0 +1,15 @@
+[phases.setup]
+nixpkgs = [
+  "python3",
+  "postgresql",
+  "gcc",
+  "pkg-config",
+  "libsasl",
+  "libldap"
+]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[start]
+cmd = "./odoo-bin -d $DB_NAME -r $DB_USER -w $DB_PASSWORD --addons-path=addons --db_host=$DB_HOST --db_port=$DB_PORT --http-port=8000"
