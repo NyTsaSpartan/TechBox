@@ -6,7 +6,9 @@ nixpkgs = [
   "gcc",
   "pkg-config",
   "libsasl",
-  "libldap"
+  "openldap.dev",    # ✅ ajoute les headers manquants comme lber.h
+  "libldap",          # ✅ optionnel, pour les bindings
+  "cyrus_sasl"        # ✅ parfois requis pour la compilation avec SASL
 ]
 
 [phases.install]
