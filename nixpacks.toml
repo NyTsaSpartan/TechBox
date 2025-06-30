@@ -5,7 +5,7 @@ nixpkgs = [
   "gcc",
   "pkg-config",
   "libsasl",
-  "openldap.dev",    # ✅ contient lber.h et ldap.h
+  "openldap.dev",    # ⚠️ très important : contient lber.h
   "libldap",
   "cyrus_sasl",
   "postgresql"
