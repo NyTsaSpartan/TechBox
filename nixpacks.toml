@@ -2,13 +2,13 @@
 nixpkgs = [
   "python310",
   "pip",
-  "postgresql",
   "gcc",
   "pkg-config",
   "libsasl",
-  "openldap.dev",    # ✅ ajoute les headers manquants comme lber.h
-  "libldap",          # ✅ optionnel, pour les bindings
-  "cyrus_sasl"        # ✅ parfois requis pour la compilation avec SASL
+  "openldap.dev",    # ✅ contient lber.h et ldap.h
+  "libldap",
+  "cyrus_sasl",
+  "postgresql"
 ]
 
 [phases.install]
@@ -19,4 +19,4 @@ cmds = [
 ]
 
 [start]
-cmd = "source /opt/venv/bin/activate && ./odoo-bin -d $DB_NAME -r $DB_USER -w $DB_PASSWORD --addons-path=addons --db_host=$DB_HOST --db_port=$DB_PORT --http-port=8000"
+cmd = "source /opt/venv/bin/activate && ./odoo-bin -d $DB_NAME -r $DB_USER -w $DB_PASSWORD --addons-path=addons --db_host=$DB_HOST --db_port=$DB_PORT --http-port=8080"
