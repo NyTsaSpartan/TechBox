@@ -23,7 +23,8 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copier les autres fichiers
-COPY --chown=odoo:odoo . .
+# COPY --chown=odoo:odoo . .
+COPY --chown=odoo:odoo addons/ ./addons/
 
 RUN chmod +x entrypoint.sh
 
