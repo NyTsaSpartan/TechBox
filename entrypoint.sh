@@ -13,4 +13,5 @@ sed -i "s/db_user *=.*/db_user = ${DB_USER}/" odoo.conf
 sed -i "s/db_password *=.*/db_password = ${DB_PASSWORD}/" odoo.conf
 
 # Lancer Odoo
-exec python3 odoo-bin -c odoo.conf
+# exec python3 odoo-bin -c odoo.conf
+exec python3 /opt/odoo/odoo-bin -c /etc/odoo/odoo.conf
