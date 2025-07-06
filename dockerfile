@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev xfonts-75dpi xfonts-base \
     && apt-get clean
 
+    # Donner les droits d'exécution à odoo-bin en tant que root
+RUN chmod +x /opt/odoo/odoo-bin && \
+    chown odoo:odoo /opt/odoo/odoo-bin
+
 # Créer l'utilisateur odoo
 RUN useradd -m -d /opt/odoo -U -r -s /bin/bash odoo
 
