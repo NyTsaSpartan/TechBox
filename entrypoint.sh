@@ -6,12 +6,13 @@
 : "${DB_USER:=odoo}"
 : "${DB_PASSWORD:=odoo}"
 
-# Remplacer dynamiquement la config dans odoo.conf
-sed -i "s/db_host *=.*/db_host = ${DB_HOST}/" odoo.conf
-sed -i "s/db_port *=.*/db_port = ${DB_PORT}/" odoo.conf
-sed -i "s/db_user *=.*/db_user = ${DB_USER}/" odoo.conf
-sed -i "s/db_password *=.*/db_password = ${DB_PASSWORD}/" odoo.conf
+# Modifier le bon fichier de config
+CONF_FILE="/etc/odoo/odoo.conf"
+
+sed -i "s/db_host *=.*/db_host = ${DB_HOST}/" $CONF_FILE
+sed -i "s/db_port *=.*/db_port = ${DB_PORT}/" $CONF_FILE
+sed -i "s/db_user *=.*/db_user = ${DB_USER}/" $CONF_FILE
+sed -i "s/db_password *=.*/db_password = ${DB_PASSWORD}/" $CONF_FILE
 
 # Lancer Odoo
-# exec python3 odoo-bin -c odoo.conf
-exec python3 /opt/odoo/odoo-bin -c /etc/odoo/odoo.conf
+exec python3 /opt/odoo/odoo-bin -c $CONF_FILE

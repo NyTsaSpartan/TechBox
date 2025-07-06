@@ -10,27 +10,23 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev xfonts-75dpi xfonts-base \
     && apt-get clean
 
-    # Donner les droits d'exécution à odoo-bin en tant que root
-RUN chmod +x /opt/odoo/odoo-bin && \
-    chown odoo:odoo /opt/odoo/odoo-bin
-
 # Créer l'utilisateur odoo
 RUN useradd -m -d /opt/odoo -U -r -s /bin/bash odoo
 
 # Définir le dossier de travail
 WORKDIR /opt/odoo
 
-# Cloner le dépôt officiel Odoo 18
+# Cloner Odoo 18
 RUN git clone https://github.com/odoo/odoo.git --depth 1 --branch 18.0 --single-branch .
 
-# Donner les droits d'exécution et changer le propriétaire de odoo-bin
+# Donner les droits d’exécution sur odoo-bin (après clone)
 RUN chmod +x /opt/odoo/odoo-bin && chown odoo:odoo /opt/odoo/odoo-bin
 
-# Copier requirements.txt et installer les dépendances Python
+# Copier requirements et installer les dépendances Python
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copier les modules et fichiers de config
+# Copier les modules, le script et la conf
 COPY --chown=odoo:odoo addons/ ./addons/
 COPY --chown=odoo:odoo entrypoint.sh /entrypoint.sh
 COPY --chown=odoo:odoo odoo.conf /etc/odoo/odoo.conf
@@ -41,7 +37,7 @@ RUN chmod +x /entrypoint.sh
 # Exposer le port
 EXPOSE 8069
 
-# Passer à l'utilisateur odoo
+# Utiliser l'utilisateur odoo
 USER odoo
 
 # Lancer le script
