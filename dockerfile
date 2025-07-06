@@ -19,20 +19,20 @@ WORKDIR /opt/odoo
 # Cloner Odoo 18
 RUN git clone https://github.com/odoo/odoo.git --depth 1 --branch 18.0 --single-branch .
 
-# Donner les droits d’exécution sur odoo-bin (après clone)
+# Donner les droits d’exécution sur odoo-bin
 RUN chmod +x /opt/odoo/odoo-bin && chown odoo:odoo /opt/odoo/odoo-bin
 
 # Copier requirements et installer les dépendances Python
-COPY requirements.txt .
+COPY requirements.txt /opt/odoo/requirements.txt
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copier les modules, le script et la conf
-COPY --chown=odoo:odoo addons/ ./addons/
+# Copier les modules, script et config
+COPY --chown=odoo:odoo addons/ /opt/odoo/addons/
 COPY --chown=odoo:odoo entrypoint.sh /entrypoint.sh
 COPY --chown=odoo:odoo odoo.conf /etc/odoo/odoo.conf
 
-# Rendre le script de démarrage exécutable
-RUN chmod +x /entrypoint.sh
+# Vérifier que le script est bien présent et exécutable
+RUN ls -l /entrypoint.sh && chmod +x /entrypoint.sh
 
 # Exposer le port
 EXPOSE 8069
@@ -40,5 +40,5 @@ EXPOSE 8069
 # Utiliser l'utilisateur odoo
 USER odoo
 
-# Lancer le script
+# Lancer le script de démarrage
 ENTRYPOINT ["/entrypoint.sh"]
