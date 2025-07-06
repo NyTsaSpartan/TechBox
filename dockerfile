@@ -15,17 +15,18 @@ RUN useradd -m -d /opt/odoo -U -r -s /bin/bash odoo
 
 WORKDIR /opt/odoo
 
-# Cloner Odoo 17 Community
-RUN git clone https://github.com/odoo/odoo.git --depth 1 --branch 17.0 --single-branch .
+# Cloner Odoo 18 Community
+RUN git clone https://github.com/odoo/odoo.git --depth 1 --branch 18.0 --single-branch .
+
+# ✅ Rendre odoo-bin exécutable
+RUN chmod +x /opt/odoo/odoo-bin
 
 # Copier requirements et installer Python packages
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copier les autres fichiers
-# COPY --chown=odoo:odoo . .
 COPY --chown=odoo:odoo addons/ ./addons/
-
 RUN chmod +x entrypoint.sh
 
 # Exposer le port Odoo
